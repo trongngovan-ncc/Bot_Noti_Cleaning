@@ -1,8 +1,9 @@
 const axios = require('axios');
 
-const API_KEY = process.env.API_KEY_GOOGLE_SHEET;
-const SHEET_ID = process.env.SHEET_ID;
-const RANGE = process.env.RANGE;
+const API_KEY = 'AIzaSyA-NeFhQTCmtcMsRQof6jjZaEc9L1--D8Y';
+const SHEET_ID = '1YMewYZLDJsYpM8bBAZKAaZ0sludp2R4LrIor5AnGlNk';
+const RANGE = 'Lịch trực nhật Tháng 9+10!A2:E';
+
 
 async function getDutyList() {
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(RANGE)}?key=${API_KEY}`;

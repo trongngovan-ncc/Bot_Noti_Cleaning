@@ -64,7 +64,7 @@ async function remindTodayDuty(client) {
     }
   });
   const fullMsg = `${header}\n${tagLine}\n${footer}`;
-  const channelId = '1967169865718435840';
+  const channelId = '1970744645637902336';
   const channel = await client.channels.fetch(channelId);
   // Embed checklist công việc trực nhật chung
   const checklistEmbed = {
@@ -85,7 +85,7 @@ async function remindTodayDuty(client) {
  
   // for (const user of todayRows) {
   //   try {
-  //     const clanid = process.env.CLAN_ID;
+  //     const clanid = '1840699528626311168';
   //     const clan = await client.clans.fetch(clanid);
   //     const userObj = await clan.users.fetch(user.mezon_user_id);
   //     await userObj.sendDM({ t: fullMsg, embed: [checklistEmbed] }, mentionsArr);
