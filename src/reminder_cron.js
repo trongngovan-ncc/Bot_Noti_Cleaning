@@ -67,7 +67,7 @@ async function remindTodayDuty(client) {
   const todayRows = rows.filter(d => d.date === todayStr);
   if (!todayRows || todayRows.length === 0) return;
   const header = '#### Nhắc nhở trực nhật hôm nay 📢';
-  const footer = '✅ Anh/chị/em nhớ hoàn thành nhiệm vụ trực nhật nhé, mình xin nhắc lại các đầu mục công việc dưới đây!';
+  const footer = 'Anh/chị/em nhớ hoàn thành nhiệm vụ trực nhật nhé, mình xin nhắc lại các đầu mục công việc dưới đây!';
   let tagLine = '';
   let mentionsArr = [];
   const t = `${header}\n`;
@@ -93,10 +93,10 @@ async function remindTodayDuty(client) {
     title: "🧹 Checklist công việc trực nhật chung",
     description: [
       "```",
-      "1. Cho đồ sạch (cốc, chén, bát, đũa, dao kéo) từ MRB ra kệ để",
-      "2. Đổ rác và thay túi rác (thùng rác và thùng đồ thừa)",
-      "3. Tưới cây (vừa đủ nước)",
-      "4. Đổ nước thải từ máy rửa bát vào WC",
+      "✅ 1. Cho đồ sạch (cốc, chén, bát, đũa, dao kéo) từ MRB ra kệ để",
+      "✅ 2. Đổ rác và thay túi rác (thùng rác và thùng đồ thừa)",
+      "✅ 3. Tưới cây (vừa đủ nước)",
+      "✅ 4. Đổ nước thải từ máy rửa bát và máy lọc nước vào WC",
       "```"
     ].join('\n'),
     footer: { text: "📝 Bộ phận nhân sự HN1 - Hãy hoàn thành đầy đủ các mục trên!" }
@@ -131,7 +131,7 @@ async function remindTomorrowDuty(client) {
   const tomorrowRows = rows.filter(d => d.date === tomorrowStr);
   if (!tomorrowRows || tomorrowRows.length === 0) return;
   const header = '#### Nhắc nhở trực nhật ngày mai 📢';
-  const footer = '✅ Anh/chị/em nhớ chuẩn bị cho nhiệm vụ trực nhật ngày mai nhé, mình xin nhắc lại các đầu mục công việc dưới đây!';
+  const footer = 'Anh/chị/em nhớ chuẩn bị cho nhiệm vụ trực nhật ngày mai nhé, mình xin nhắc lại các đầu mục công việc dưới đây!';
   let tagLine = '';
   let mentionsArr = [];
   const t = `${header}\n`;
@@ -156,10 +156,10 @@ async function remindTomorrowDuty(client) {
     title: "🧹 Checklist công việc trực nhật chung",
     description: [
       "```",
-      "1. Cho đồ sạch (cốc, chén, bát, đũa, dao kéo) từ MRB ra kệ để",
-      "2. Đổ rác và thay túi rác (thùng rác và thùng đồ thừa)",
-      "3. Tưới cây (vừa đủ nước)",
-      "4. Đổ nước thải từ máy rửa bát vào WC",
+      "✅ 1. Cho đồ sạch (cốc, chén, bát, đũa, dao kéo) từ MRB ra kệ để",
+      "✅ 2. Đổ rác và thay túi rác (thùng rác và thùng đồ thừa)",
+      "✅ 3. Tưới cây (vừa đủ nước)",
+      "✅ 4. Đổ nước thải từ máy rửa bát và máy lọc nước vào WC",
       "```"
     ].join('\n'),
     footer: { text: "📝 Bộ phận nhân sự HN1 - Hãy hoàn thành đầy đủ các mục trên!" }
@@ -191,10 +191,10 @@ async function remindGeneralCleaning(client) {
       '```',
       'Hãy đảm bảo khu vực làm việc và khu vực chung luôn sạch sẽ, gọn gàng!',
       '',
-      '• Đổ rác đúng nơi quy định',
-      '• Lau dọn khu vực cá nhân',
-      '• Sắp xếp bát đũa vào máy rửa bát trước 17h30',
-      '• Nhắc nhở đồng nghiệp cùng thực hiện',
+      '✅ Đổ rác đúng nơi quy định',
+      '✅ Lau dọn khu vực cá nhân',
+      '✅ Sắp xếp bát đũa vào máy rửa bát trước 17h30',
+      '✅ Nhắc nhở đồng nghiệp cùng thực hiện',
       '',
       'Cảm ơn mọi người đã giữ gìn văn phòng sạch đẹp, chúc mọi người có một ngày làm việc phấn khởi!',
       '```'

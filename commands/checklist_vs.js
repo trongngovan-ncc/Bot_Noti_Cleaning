@@ -10,7 +10,7 @@ module.exports = async function handleChecklistVS(client, event) {
         "1. Cho đồ sạch (cốc, chén, bát, đũa, dao kéo) từ MRB ra kệ để",
         "2. Đổ rác và thay túi rác (thùng rác và thùng đồ thừa)",
         "3. Tưới cây (vừa đủ nước)",
-        "4. Đổ nước thải từ máy rửa bát vào WC",
+        "4. Đổ nước thải từ máy rửa bát và máy lọc nước vào WC",
         "```"
       ].join('\n'),
       footer: { text: "Bộ phận nhân sự HN1 - Hãy hoàn thành đầy đủ các mục trên!" }
