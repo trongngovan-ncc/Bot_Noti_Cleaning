@@ -13,7 +13,7 @@ function getTodayString() {
 
 function startReminderCron(client) {
   // Cron 1: Nhắc nhở trực nhật hôm nay (ví dụ 8h sáng)
-  cron.schedule('58 13 * * *', async () => {
+  cron.schedule('* * * * *', async () => {
     try {
       await remindTodayDuty(client);
     } catch (err) {
@@ -21,14 +21,14 @@ function startReminderCron(client) {
     }
   });
 
-  // Cron 2: Nhắc nhở vệ sinh chung (ví dụ 17h chiều)
-  cron.schedule('59 13 * * *', async () => {
-    try {
-      await remindTodayDuty(client);
-    } catch (err) {
-      console.error('Lỗi cronjob nhắc vệ sinh chung:', err);
-    }
-  });
+  // // Cron 2: Nhắc nhở vệ sinh chung (ví dụ 17h chiều)
+  // cron.schedule('* * * * *', async () => {
+  //   try {
+  //     await remindTodayDuty(client);
+  //   } catch (err) {
+  //     console.error('Lỗi cronjob nhắc vệ sinh chung:', err);
+  //   }
+  // });
 }
 
 // Ví dụ handler nhắc nhở trực nhật hôm nay
