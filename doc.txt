@@ -1,12 +1,15 @@
 I. Lệnh ping:
-    0. *trucnhat   ->>> thongbaotrucnhat
+    0. *trucnhat   ->>> thông báo chung về trực nhật và các lệnh có thể dùng.
     1. *trucnhat_ds ->>> List danh sách trực nhật. ( oke )
     2. *trucnhat_cuatoi ->>> Trực nhật của riêng người đó vào ngày nào và đồng đôi trực cùng. ( oke )
     3. *trucnhat_homnay ->>> Hôm nay ai trực nhật. ( oke )
     4. *trucnhat_congviec ->>> các công việc trực nhật 
     5. *mrb ->>> video hướng dẫn chung (oke) 
     6. *mrb_doracthai , *mrb_donuocthai ->>> video hướng dẫn vệ sinh mrb (đổ rác, nước thải) (oke)
-    7. *mrb_sapxep ->>> video hướng dẫn cách sắp xếp cốc chén bát đũa. ( oke )
+    7. *mrb_sapxep ->>> video và ảnh hướng dẫn cách sắp xếp cốc chén bát đũa. ( oke )
+    8. *phongderac --> video hướng dẫn đến phòng để rác
+    9. *trucnhat_homqua ->>> 
+    10. *trucnhat_ngaymai ->>>
     
 II. Tự động nhắc nhở:
 
