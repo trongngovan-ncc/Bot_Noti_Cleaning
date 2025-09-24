@@ -1,0 +1,64 @@
+I. Lệnh ping:
+    0. *trucnhat   ->>> thongbaotrucnhat
+    1. *trucnhat_ds ->>> List danh sách trực nhật. ( oke )
+    2. *trucnhat_cuatoi ->>> Trực nhật của riêng người đó vào ngày nào và đồng đôi trực cùng. ( oke )
+    3. *trucnhat_homnay ->>> Hôm nay ai trực nhật. ( oke )
+    4. *trucnhat_congviec ->>> các công việc trực nhật 
+    5. *mrb ->>> video hướng dẫn chung (oke) 
+    6. *mrb_doracthai , *mrb_donuocthai ->>> video hướng dẫn vệ sinh mrb (đổ rác, nước thải) (oke)
+    7. *mrb_sapxep ->>> video hướng dẫn cách sắp xếp cốc chén bát đũa. ( oke )
+    
+II. Tự động nhắc nhở:
+
+    1. Cứ đến 8h sáng và 17h chiều, tự động truy vấn vào DB xem hôm nay ai trực nhật (nhắc trên Channel HN1 và DM riêng)
+        1.1 Nhắc nhở trên Group vào 1 thời gian nào đó ( oke )
+        1.2 Nhắc nhở DM vào 1 thời gian nào đó ( oke )
+
+    2. Đồng thời 8h sáng cũng nhắc nhở chung đến tất cả mọi người về thông tin vệ sinh chung ( bài viết được viết bởi HR), ping HN1 ( k quá cần thiết)
+
+  // "mezon_user_id": "1779484387973271552" a nhàn
+
+  "mezon_user_id": "1800396411926220800" chị hiền 
+
+
+ "messages": [
+        {
+            "clan_id": "0",
+            "channel_id": "1840699689087799296",
+            "message_id": "1840651256004087808",
+            "code": 0,
+            "sender_id": "1940048388468772864",
+            "username": "ngovantrong1308",
+            "avatar": "https://cdn.mezon.ai/0/1940048388468772864/1940048388468772900/1751380011460_photo_1740147886896.jpg",
+            "content": "{\"t\":\"huhu\"}",
+            "create_time": "2025-09-23T08:07:14Z",
+            "update_time": "2025-09-23T08:07:14Z",
+            "display_name": "Ngọ Văn Trọng",
+            "mentions": "[]",
+            "attachments": "[{\"filename\":\"donuocthai.mov\",\"size\":29842935,\"url\":\"https://cdn.mezon.ai/0/1840699689087799296/1940048388468772900/1758614829876_1758614405126____n__c_th_i.mov\",\"filetype\":\"video/quicktime\",\"width\":1080,\"height\":1920}]",
+            "references": "[]",
+            "create_time_seconds": 1758614834,
+            "update_time_seconds": 1758614834,
+            "hide_editted": true
+        }
+ ]
+
+
+sử dụng MRB
+ 
+https://cdn.mezon.ai/0/1840699689087799296/1940048388468772900/1758685023532_C_ch_s__d_ng_MRB.mov
+
+Sắp xếp bát đũa trong MRB
+
+https://cdn.mezon.ai/0/1840699689087799296/1940048388468772900/1758685070446_C_ch_x_p_c_c_ch_n_b_t___a.mov
+
+Đổ rác trong MRB
+
+https://cdn.mezon.ai/0/1840699689087799296/1940048388468772900/1758685162701_C_ch____r_c_trong_MRB.mov
+
+
+ https://cdn.mezon.ai/0/1840699689087799296/1940048388468772900/1758678485494_11758173861079IMG_2779.jpg
+
+ https://cdn.mezon.ai/0/1840699689087799296/1940048388468772900/1758678485497_21758173861190IMG_2778.jpg
+
+ https://cdn.mezon.ai/0/1840699689087799296/1940048388468772900/1758678485496_1758173860964IMG_2781.jpg
