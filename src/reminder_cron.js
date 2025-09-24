@@ -83,16 +83,16 @@ async function remindTodayDuty(client) {
   await channel.send({ t: fullMsg, embed: [checklistEmbed] }, mentionsArr);
 
  
-  for (const user of todayRows) {
-    try {
-      const clanid = process.env.CLAN_ID;
-      const clan = await client.clans.fetch(clanid);
-      const userObj = await clan.users.fetch(user.mezon_user_id);
-      await userObj.sendDM({ t: fullMsg, embed: [checklistEmbed] }, mentionsArr);
-    } catch (err) {
-      console.error(`Lỗi gửi DM cho user ${user.name}:`, err);
-    }
-  }
+  // for (const user of todayRows) {
+  //   try {
+  //     const clanid = process.env.CLAN_ID;
+  //     const clan = await client.clans.fetch(clanid);
+  //     const userObj = await clan.users.fetch(user.mezon_user_id);
+  //     await userObj.sendDM({ t: fullMsg, embed: [checklistEmbed] }, mentionsArr);
+  //   } catch (err) {
+  //     console.error(`Lỗi gửi DM cho user ${user.name}:`, err);
+  //   }
+  // }
 
 }
 
