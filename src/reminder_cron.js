@@ -49,9 +49,9 @@ function startReminderCron(client) {
     timezone: "Asia/Ho_Chi_Minh"
   });
 
-  // Cron: nhắc nhở ngày mai - 6:00 chiều giờ VN
-  cron.schedule('30 17 * * *', async () => {
-    console.log('🔔 [5:30 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
+  // Cron: nhắc nhở ngày mai - 5:00 chiều giờ VN
+  cron.schedule('00 17 * * *', async () => {
+    console.log('🔔 [5:00 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
     try {
       await remindTomorrowDuty(client);
     } catch (err) {
@@ -77,7 +77,12 @@ async function remindTodayDuty(client) {
   }
   const todayRows = rows.filter(d => d.date === todayStr);
   if (!todayRows || todayRows.length === 0) return;
-  const header = '#### Nhắc nhở trực nhật hôm nay 📢';
+  // Lấy thứ và ngày hiện tại theo múi giờ VN
+  const today = new Date();
+  const vnDate = new Date(today.toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
+  const weekday = vnDate.toLocaleDateString('vi-VN', { weekday: 'long' });
+  const dateStr = `${String(vnDate.getDate()).padStart(2, '0')}/${String(vnDate.getMonth() + 1).padStart(2, '0')}/${vnDate.getFullYear()}`;
+  const header = `#### Nhắc nhở trực nhật hôm nay 📢\n${weekday}, ${dateStr}`;
   const footer = 'Anh/chị/em nhớ hoàn thành nhiệm vụ trực nhật nhé, mình xin nhắc lại các đầu mục công việc dưới đây!';
   let tagLine = '';
   let mentionsArr = [];
@@ -141,7 +146,13 @@ async function remindTomorrowDuty(client) {
   }
   const tomorrowRows = rows.filter(d => d.date === tomorrowStr);
   if (!tomorrowRows || tomorrowRows.length === 0) return;
-  const header = '#### Nhắc nhở trực nhật ngày mai 📢';
+  // Lấy thứ và ngày mai theo múi giờ VN
+  const today = new Date();
+  const vnDate = new Date(today.toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
+  vnDate.setDate(vnDate.getDate() + 1);
+  const weekday = vnDate.toLocaleDateString('vi-VN', { weekday: 'long' });
+  const dateStr = `${String(vnDate.getDate()).padStart(2, '0')}/${String(vnDate.getMonth() + 1).padStart(2, '0')}/${vnDate.getFullYear()}`;
+  const header = `#### Nhắc nhở trực nhật ngày mai 📢\n${weekday}, ${dateStr}`;
   const footer = 'Anh/chị/em nhớ chuẩn bị cho nhiệm vụ trực nhật ngày mai nhé, mình xin nhắc lại các đầu mục công việc dưới đây!';
   let tagLine = '';
   let mentionsArr = [];
@@ -171,6 +182,7 @@ async function remindTomorrowDuty(client) {
       "✅ 2. Đổ rác và thay túi rác (thùng rác và thùng đồ thừa)",
       "✅ 3. Tưới cây (vừa đủ nước)",
       "✅ 4. Đổ nước thải từ máy rửa bát và máy lọc nước vào WC",
+      "⚠️ Lưu ý: ACE nhớ đến sớm trước 8h sáng để xếp đồ sạch ra khỏi MRB, để mọi người có thể bỏ đồ bẩn vào nhé",
       "```"
     ].join('\n'),
     footer: { text: "📝 Bộ phận nhân sự HN1 - Hãy hoàn thành đầy đủ các mục trên!" }
