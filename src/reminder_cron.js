@@ -1,25 +1,33 @@
 
+
 const fs = require('fs');
 const path = require('path');
 const cron = require('node-cron');
 
-function getTodayString() {
-  const today = new Date();
-  const dd = String(today.getDate()).padStart(2, '0');
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const yyyy = today.getFullYear();
-  return `${dd}/${mm}/${yyyy}`;
+// Hằng số chung cho clan/channel
+const CLAN_ID = '1779484504377790464';
+const CHANNEL_ID = '1832749414897160192';
+// Hàm lấy ngày dd/mm/yyyy theo múi giờ VN
+function getVNDateString(offset = 0) {
+  const now = new Date();
+  const vnDate = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
+  vnDate.setDate(vnDate.getDate() + offset);
+  return `${String(vnDate.getDate()).padStart(2, '0')}/${String(vnDate.getMonth() + 1).padStart(2, '0')}/${vnDate.getFullYear()}`;
 }
-function getTomorrowString() {
-    const today = new Date();
-    today.setDate(today.getDate() + 1);
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-    return `${dd}/${mm}/${yyyy}`;
-  }
+
+// Hàm lấy thứ tiếng Việt theo múi giờ VN
+function getVNWeekday(offset = 0) {
+  const now = new Date();
+  const vnDate = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
+  vnDate.setDate(vnDate.getDate() + offset);
+  return vnDate.toLocaleDateString('vi-VN', { weekday: 'long' });
+}
 
 
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function startReminderCron(client) {
   console.log('🕐 Khởi tạo cron jobs với timezone:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
@@ -28,8 +36,9 @@ function startReminderCron(client) {
   cron.schedule('30 07 * * *', async () => {
     console.log('🔔 [7:30 SÁNG] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
     try {
-      await remindTodayDuty(client);
       await remindGeneralCleaning(client);
+      await sleep(2000);
+      await remindTodayDuty(client);
     } catch (err) {
       console.error('Lỗi cronjob nhắc trực nhật:', err);
     }
@@ -61,11 +70,22 @@ function startReminderCron(client) {
     timezone: "Asia/Ho_Chi_Minh"
   });
 
+  cron.schedule('05 17 * * *', async () => {
+    console.log('🔔 [5:05 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
+    try {
+      await remindThrowGarbage(client);
+    } catch (err) {
+      console.error('Lỗi cronjob nhắc trực nhật ngày mai:', err);
+    }
+  }, {
+    timezone: "Asia/Ho_Chi_Minh"
+  });
+
 }
 
 // Ví dụ handler nhắc nhở trực nhật hôm nay
 async function remindTodayDuty(client) {
-  const todayStr = getTodayString();
+  const todayStr = getVNDateString(0);
   const jsonPath = path.join(__dirname, '../data/dutylist.json');
   let rows = [];
   try {
@@ -77,12 +97,7 @@ async function remindTodayDuty(client) {
   }
   const todayRows = rows.filter(d => d.date === todayStr);
   if (!todayRows || todayRows.length === 0) return;
-  // Lấy thứ và ngày hiện tại theo múi giờ VN
-  const today = new Date();
-  const vnDate = new Date(today.toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
-  const weekday = vnDate.toLocaleDateString('vi-VN', { weekday: 'long' });
-  const dateStr = `${String(vnDate.getDate()).padStart(2, '0')}/${String(vnDate.getMonth() + 1).padStart(2, '0')}/${vnDate.getFullYear()}`;
-  const header = `#### Nhắc nhở trực nhật hôm nay 📢\n${weekday}, ${dateStr}`;
+  const header = `#### Nhắc nhở trực nhật hôm nay 📢: ${getVNWeekday(0)}, ${getVNDateString(0)}`;
   const footer = 'Anh/chị/em nhớ hoàn thành nhiệm vụ trực nhật nhé, mình xin nhắc lại các đầu mục công việc dưới đây!';
   let tagLine = '';
   let mentionsArr = [];
@@ -101,8 +116,7 @@ async function remindTodayDuty(client) {
     }
   });
   const fullMsg = `${header}\n${tagLine}\n${footer}`;
-  const channelId = '1829449968461549568';
-  const channel = await client.channels.fetch(channelId);
+  const channel = await client.channels.fetch(CHANNEL_ID);
   // Embed checklist công việc trực nhật chung
   const checklistEmbed = {
     color: "#3498db",
@@ -113,6 +127,7 @@ async function remindTodayDuty(client) {
       "✅ 2. Đổ rác và thay túi rác (thùng rác và thùng đồ thừa)",
       "✅ 3. Tưới cây (vừa đủ nước)",
       "✅ 4. Đổ nước thải từ máy rửa bát và máy lọc nước vào WC",
+      "⚠️ Lưu ý: ACE nhớ đến sớm trước 8h sáng để xếp đồ sạch ra khỏi MRB, để mọi người có thể bỏ đồ bẩn vào nhé",
       "```"
     ].join('\n'),
     footer: { text: "📝 Bộ phận nhân sự HN1 - Hãy hoàn thành đầy đủ các mục trên!" }
@@ -122,8 +137,7 @@ async function remindTodayDuty(client) {
  
   for (const user of todayRows) {
     try {
-      const clanid = '1779484504377790464';
-      const clan = await client.clans.fetch(clanid);
+      const clan = await client.clans.fetch(CLAN_ID);
       const userObj = await clan.users.fetch(user.mezon_user_id);
       await userObj.sendDM({ t: fullMsg, embed: [checklistEmbed] }, mentionsArr);
     } catch (err) {
@@ -134,7 +148,7 @@ async function remindTodayDuty(client) {
 }
 
 async function remindTomorrowDuty(client) {
-  const tomorrowStr = getTomorrowString();
+  const tomorrowStr = getVNDateString(1);
   const jsonPath = path.join(__dirname, '../data/dutylist.json');
   let rows = [];
   try {
@@ -146,13 +160,7 @@ async function remindTomorrowDuty(client) {
   }
   const tomorrowRows = rows.filter(d => d.date === tomorrowStr);
   if (!tomorrowRows || tomorrowRows.length === 0) return;
-  // Lấy thứ và ngày mai theo múi giờ VN
-  const today = new Date();
-  const vnDate = new Date(today.toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
-  vnDate.setDate(vnDate.getDate() + 1);
-  const weekday = vnDate.toLocaleDateString('vi-VN', { weekday: 'long' });
-  const dateStr = `${String(vnDate.getDate()).padStart(2, '0')}/${String(vnDate.getMonth() + 1).padStart(2, '0')}/${vnDate.getFullYear()}`;
-  const header = `#### Nhắc nhở trực nhật ngày mai 📢\n${weekday}, ${dateStr}`;
+  const header = `#### Nhắc nhở trực nhật ngày mai 📢: ${getVNWeekday(1)}, ${getVNDateString(1)}`;
   const footer = 'Anh/chị/em nhớ chuẩn bị cho nhiệm vụ trực nhật ngày mai nhé, mình xin nhắc lại các đầu mục công việc dưới đây!';
   let tagLine = '';
   let mentionsArr = [];
@@ -171,8 +179,7 @@ async function remindTomorrowDuty(client) {
     }
   });
   const fullMsg = `${header}\n${tagLine}\n${footer}`;
-  const channelId = '1829449968461549568';
-  const channel = await client.channels.fetch(channelId);
+  const channel = await client.channels.fetch(CHANNEL_ID);
   const checklistEmbed = {
     color: "#3498db",
     title: "🧹 Checklist công việc trực nhật chung",
@@ -190,8 +197,7 @@ async function remindTomorrowDuty(client) {
   await channel.send({ t: fullMsg, embed: [checklistEmbed] }, mentionsArr);
   for (const user of tomorrowRows) {
     try {
-      const clanid = '1779484504377790464';
-      const clan = await client.clans.fetch(clanid);
+      const clan = await client.clans.fetch(CLAN_ID);
       const userObj = await clan.users.fetch(user.mezon_user_id);
       await userObj.sendDM({ t: fullMsg, embed: [checklistEmbed] }, mentionsArr);
     } catch (err) {
@@ -205,27 +211,39 @@ async function remindTomorrowDuty(client) {
 
 // Handler nhắc vệ sinh chung
 async function remindGeneralCleaning(client) {
-  const channelId = '1829449968461549568';
-  const channel = await client.channels.fetch(channelId);
+  const channel = await client.channels.fetch(CHANNEL_ID);
   const embed = [{
     color: "#e67e22",
-    title: "🧹 Tiện thể em xin vài giây nhắc nhở vệ sinh chung cho cả văn phòng ạ!",
+    title: "Hãy đảm bảo khu vực làm việc và khu vực chung luôn sạch sẽ, gọn gàng!",
     description: [
       '```',
-      'Hãy đảm bảo khu vực làm việc và khu vực chung luôn sạch sẽ, gọn gàng!',
-      '',
       '✅ Đổ rác đúng nơi quy định',
       '✅ Lau dọn khu vực cá nhân',
       '✅ Sắp xếp bát đũa vào máy rửa bát trước 17h30',
       '✅ Nhắc nhở đồng nghiệp cùng thực hiện',
       '',
-      'Cảm ơn mọi người đã giữ gìn văn phòng sạch đẹp, chúc mọi người có một ngày làm việc phấn khởi!',
+      'Cảm ơn mọi người đã giữ gìn văn phòng sạch đẹp, chúc mọi người có một ngày mới làm việc phấn khởi!',
       '```'
     ].join('\n'),
     footer: { text: "Bộ phận Nhân sự - Văn phòng HN1" }
   }];
-  await channel.send({ t: '', embed });
+  await channel.send({ t: '@HANOI1 🧹 Chào buổi sáng văn phòng HN1 ạ, em xin vài giây nhắc nhở vệ sinh chung ạ!', embed }, [{ role_id: "1969473670690639872", s: 0, e: 7 }] );
 }
 
-module.exports = { startReminderCron, remindTodayDuty, remindTomorrowDuty, remindGeneralCleaning };
+
+async function remindThrowGarbage(client) {
+  const channel = await client.channels.fetch(CHANNEL_ID);
+  const embed = [{
+    color: "#c3053bff",
+    title: "Cả nhà ai còn rác thừa thì đổ vào thùng để ban trực nhật dọn nhé; Ai còn cốc chén thừa mà không dùng nữa thì cho vào máy rửa bát luôn ạ!",
+    image: {
+      url: "https://cdn.mezon.ai/1969101240251977728/1971006617226842112/1940048388468772900/1758823251378_dragged_drag.gif"
+      // url: "https://cdn.mezon.ai/1969101240251977728/1969101240306503680/1940048388468772900/1758820742467_computer_monday.gif"
+    },
+    footer: { text: "Bộ phận Nhân sự - Văn phòng HN1" }
+  }];
+  await channel.send({ t: '@HANOI1 LOA LOA LOA, CẢ NHÀ ƠI!!! ĐÃ ĐẾN GIỜ ĐỔ RÁC, KHỞI ĐỘNG MÁY RỬA BÁT!', embed }, [{ role_id: "1969473670690639872", s: 0, e: 7 }] );
+}
+
+module.exports = { startReminderCron, remindTodayDuty, remindTomorrowDuty, remindGeneralCleaning, remindThrowGarbage };
 

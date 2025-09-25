@@ -1,7 +1,71 @@
+const fs = require('fs');
+const path = require('path');
+
+function getWeekdayFromDateString(dateStr) {
+  const [day, month, year] = dateStr.split('/');
+  const date = new Date(year, month - 1, day);
+  return date.toLocaleDateString('vi-VN', { weekday: 'long' });
+}
+
 module.exports = async function handleTrucNhat(client, event) {
   try {
     const channel = await client.channels.fetch(event.channel_id);
     const message = await channel.messages.fetch(event.message_id);
+    // Nếu có references thì lấy message_sender_id
+    let referenceUserId = null;
+    let referenceUserName = null;
+    if (event.references && event.references.length > 0) {
+      let refArr = event.references;
+      if (typeof refArr === 'string') {
+        try { refArr = JSON.parse(refArr); } catch {}
+      }
+      if (Array.isArray(refArr) && refArr.length > 0 && refArr[0].message_sender_id) {
+        referenceUserId = refArr[0].message_sender_id;
+        referenceUserName = refArr[0].message_sender_username || 'người được reply';
+      }
+    }
+
+    if (referenceUserId) {
+      // Tìm lịch trực nhật của user này
+      const jsonPath = path.join(__dirname, '../data/dutylist.json');
+      let rows = [];
+      try {
+        const fileContent = fs.readFileSync(jsonPath, 'utf8');
+        rows = JSON.parse(fileContent);
+      } catch (err) {
+        console.error('Lỗi đọc file dutylist.json:', err);
+      }
+      const userRows = rows.filter(d => d.mezon_user_id === referenceUserId);
+      if (!userRows || userRows.length === 0) {
+        await message.reply({ t: `Không tìm thấy lịch trực nhật của người này!` });
+        return;
+      }
+      // Lấy tên từ DB mapping mezon_user_id
+      const userName = userRows[0].name || referenceUserName || 'người được reply';
+      let text = '';
+      for (const r of userRows) {
+        const teammates = rows.filter(d => d.date === r.date && d.mezon_user_id !== referenceUserId);
+        text += `- ${r.name} trực ${getWeekdayFromDateString(r.date)} (${r.date})`;
+        if (teammates.length > 0) {
+          text += `\n    • Đồng đội cùng trực: ${teammates.map(m => `${m.name} (${m.email})`).join(', ')}`;
+        }
+        text += '\n';
+      }
+      const embedElement = {
+        color: "#3498db",
+        title: `📅 Bạn đang quan tâm đến lịch trực nhật của ${userName}?`,
+        description: [
+          '```',
+          text.trim(),
+          '```'
+        ].join('\n'),
+        footer: { text: "Bộ phận Nhân sự - Văn phòng HN1" }
+      };
+      await message.reply({ t: '', embed: [embedElement] });
+      return;
+    }
+
+    // ...existing code thông báo chung...
     const embedElement = {
       color: "#3498db",
       title: "📢 THÔNG BÁO VỀ VIỆC TRỰC NHẬT VĂN PHÒNG",
@@ -46,10 +110,7 @@ module.exports = async function handleTrucNhat(client, event) {
       ].join('\n'),
       footer: { text: "Bộ phận HR Văn phòng HN1 - Văn phòng sạch đẹp là trách nhiệm của tất cả!" }
     };
-    await message.reply({
-      t: "",
-      embed: [embedElement]
-    });
+    await message.reply({ t: "", embed: [embedElement] });
   } catch (err) {
     console.error('Lỗi gửi thông báo trực nhật:', err);
   }

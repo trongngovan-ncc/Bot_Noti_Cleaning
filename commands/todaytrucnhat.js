@@ -1,19 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-
-function getTodayString() {
-  const today = new Date();
-  const dd = String(today.getDate()).padStart(2, '0');
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const yyyy = today.getFullYear();
-  return `${dd}/${mm}/${yyyy}`;
-}
+const { getVNDateString, getVNWeekday } = require('../src/utils');
 
 module.exports = async function handleTodayTrucNhat(client, event) {
   try {
     const channel = await client.channels.fetch(event.channel_id);
     const message = await channel.messages.fetch(event.message_id);
-    const todayStr = getTodayString();
+    const todayStr = getVNDateString(0);
     const jsonPath = path.join(__dirname, '../data/dutylist.json');
     let data = [];
     try {
@@ -38,7 +31,7 @@ module.exports = async function handleTodayTrucNhat(client, event) {
     let text = rows.map(r => `- ${r.name} (${r.email})`).join('\n');
     const embed = [{
       color: "#3498db",
-      title: `📅 Danh sách trực nhật hôm nay (${todayStr})` ,
+      title: `📅 Danh sách trực nhật hôm nay - ${getVNWeekday(0)} (${todayStr})` ,
       description: [
         '```',
         text,

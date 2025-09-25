@@ -1,20 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-
-function getTomorrowString() {
-  const today = new Date();
-  today.setDate(today.getDate() + 1);
-  const dd = String(today.getDate()).padStart(2, '0');
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const yyyy = today.getFullYear();
-  return `${dd}/${mm}/${yyyy}`;
-}
+const { getVNDateString, getVNWeekday } = require('../src/utils');
 
 module.exports = async function handleTrucNhatNgayMai(client, event) {
   try {
     const channel = await client.channels.fetch(event.channel_id);
     const message = await channel.messages.fetch(event.message_id);
-    const tomorrowStr = getTomorrowString();
+    const tomorrowStr = getVNDateString(1);
     const jsonPath = path.join(__dirname, '../data/dutylist.json');
     let data = [];
     try {
@@ -27,7 +19,7 @@ module.exports = async function handleTrucNhatNgayMai(client, event) {
     }
     const rows = data.filter(item => item.date === tomorrowStr);
     if (!rows || rows.length === 0) {
-      await message.reply({ t: `Không có ai trực nhật vào ngày mai (${tomorrowStr})!` });
+      await message.reply({ t: `Không có ai trực nhật vào ngày mai - ${getVNWeekday(1)} (${tomorrowStr})!` });
       return;
     }
     let textResult = rows.map(r => `- ${r.name} (${r.email})`).join('\n');

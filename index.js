@@ -23,7 +23,7 @@ const registerHealthApi = require('./api/health');
 
 
 const PORT = process.env.PORT || 8000;
-const APP_TOKEN = process.env.APPLICATION_TOKEN;
+const APP_TOKEN = process.env.APPLICATION_TOKEN_TEST;
 
 
 (async () => {

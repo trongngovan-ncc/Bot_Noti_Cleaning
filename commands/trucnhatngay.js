@@ -1,6 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
+function getWeekdayFromDateString(dateStr) {
+  const [day, month, year] = dateStr.split('/');
+  const date = new Date(year, month - 1, day);
+  return date.toLocaleDateString('vi-VN', { weekday: 'long' });
+}
+
 module.exports = async function handleTrucNhatNgay(client, event) {
   try {
     const channel = await client.channels.fetch(event.channel_id);
@@ -25,13 +31,13 @@ module.exports = async function handleTrucNhatNgay(client, event) {
     }
     const rows = data.filter(item => item.date === dateStr);
     if (!rows || rows.length === 0) {
-      await message.reply({ t: `Không có ai trực nhật vào ngày ${dateStr}!` });
+      await message.reply({ t: `Không có ai trực nhật vào ${getWeekdayFromDateString(dateStr)} (${dateStr})!` });
       return;
     }
     let textResult = rows.map(r => `- ${r.name} (${r.email})`).join('\n');
     const embed = [{
       color: "#3498db",
-      title: `📅 Danh sách trực nhật ngày ${dateStr}` ,
+      title: `📅 Danh sách trực nhật ${getWeekdayFromDateString(dateStr)} (${dateStr})` ,
       description: [
         '```',
         textResult,

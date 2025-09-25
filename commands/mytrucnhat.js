@@ -1,6 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
+function getWeekdayFromDateString(dateStr) {
+  const [day, month, year] = dateStr.split('/');
+  const date = new Date(year, month - 1, day);
+  return date.toLocaleDateString('vi-VN', { weekday: 'long' });
+}
+
 module.exports = async function handleMyTrucNhat(client, event) {
   try {
     const channel = await client.channels.fetch(event.channel_id);
@@ -31,7 +37,7 @@ module.exports = async function handleMyTrucNhat(client, event) {
     let text = '';
     for (const r of myRows) {
       const teammates = rows.filter(d => d.date === r.date && d.mezon_user_id !== senderId);
-      text += `- ${r.name} trực ngày ${r.date}`;
+      text += `- ${r.name} trực ${getWeekdayFromDateString(r.date)} (${r.date})`;
       if (teammates.length > 0) {
         text += `\n    • Đồng đội cùng trực: ${teammates.map(m => `${m.name} (${m.email})`).join(', ')}`;
       }
