@@ -18,7 +18,6 @@ const handleTrucNhat = require("./commands/trucnhat");
 const handleTrucNhatNgay = require("./commands/trucnhatngay");
 const handleTrucNhatNgayMai = require("./commands/trucnhat_ngaymai");
 const handleTrucNhatHomQua = require("./commands/trucnhat_homqua");
-const handleDeleteMessage = require("./commands/delete_message");
 const { startReminderCron } = require('./src/reminder_cron');
 const registerHealthApi = require('./api/health');
 
@@ -92,9 +91,7 @@ const APP_TOKEN = process.env.APPLICATION_TOKEN;
     if(text === "*phongderac"){
       return handlePhongderac(client, event);
     }
-    if(text === "*delete_message"){
-      return handleDeleteMessage(client, event);
-    }
+
 
     // Lệnh *trucnhatngay_dd/mm/yyyy
     if(/^\*trucnhatngay_\d{2}\/\d{2}\/\d{4}$/.test(text)){
