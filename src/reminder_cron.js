@@ -70,12 +70,12 @@ function startReminderCron(client) {
     timezone: "Asia/Ho_Chi_Minh"
   });
 
-  cron.schedule('05 17 * * *', async () => {
-    console.log('🔔 [5:05 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
+  cron.schedule('01 17 * * *', async () => {
+    console.log('🔔 [5:01 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
     try {
       await remindThrowGarbage(client);
     } catch (err) {
-      console.error('Lỗi cronjob nhắc trực nhật ngày mai:', err);
+      console.error('Lỗi cronjob nhắc đổ rác:', err);
     }
   }, {
     timezone: "Asia/Ho_Chi_Minh"
