@@ -237,8 +237,8 @@ async function remindThrowGarbage(client) {
     color: "#c3053bff",
     title: "Cả nhà ai còn rác thừa thì đổ vào thùng để ban trực nhật dọn nhé; Ai còn cốc chén thừa mà không dùng nữa thì cho vào máy rửa bát luôn ạ!",
     image: {
-      url: "https://cdn.mezon.ai/1969101240251977728/1971006617226842112/1940048388468772900/1758823251378_dragged_drag.gif"
-      // url: "https://cdn.mezon.ai/1969101240251977728/1969101240306503680/1940048388468772900/1758820742467_computer_monday.gif"
+      // url: "https://cdn.mezon.ai/1969101240251977728/1971006617226842112/1940048388468772900/1758823251378_dragged_drag.gif"
+      url: "https://cdn.mezon.ai/1969101240251977728/1969101240306503680/1940048388468772900/1758820742467_computer_monday.gif"
     },
     footer: { text: "Bộ phận Nhân sự - Văn phòng HN1" }
   }];
