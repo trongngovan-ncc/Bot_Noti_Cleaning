@@ -6,7 +6,7 @@ const cron = require('node-cron');
 
 // Hằng số chung cho clan/channel
 const CLAN_ID = '1779484504377790464';
-const CHANNEL_ID = '1832749414897160192';
+const CHANNEL_ID = '1829449968461549568';
 // Hàm lấy ngày dd/mm/yyyy theo múi giờ VN
 function getVNDateString(offset = 0) {
   const now = new Date();
@@ -127,7 +127,7 @@ async function remindTodayDuty(client) {
       "✅ 2. Đổ rác và thay túi rác (thùng rác và thùng đồ thừa)",
       "✅ 3. Tưới cây (vừa đủ nước)",
       "✅ 4. Đổ nước thải từ máy rửa bát và máy lọc nước vào WC",
-      "⚠️ Lưu ý: ACE nhớ đến sớm trước 8h sáng để xếp đồ sạch ra khỏi MRB, để mọi người có thể bỏ đồ bẩn vào nhé",
+      "⚠️ Lưu ý: ACE nhớ đến sớm trước 8h30 sáng để xếp đồ sạch ra khỏi MRB, để mọi người có thể bỏ đồ bẩn vào nhé",
       "```"
     ].join('\n'),
     footer: { text: "📝 Bộ phận nhân sự HN1 - Hãy hoàn thành đầy đủ các mục trên!" }

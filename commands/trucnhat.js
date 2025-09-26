@@ -68,7 +68,7 @@ module.exports = async function handleTrucNhat(client, event) {
     // ...existing code thông báo chung...
     const embedElement = {
       color: "#3498db",
-      title: "📢 THÔNG BÁO VỀ VIỆC TRỰC NHẬT VĂN PHÒNG",
+      title: "📢 THÔNG BÁO VỀ VIỆC TRỰC NHẬT VĂN PHÒNG HN1",
       description: [
         "I. ✅ Công việc cá nhân",
         "```",
