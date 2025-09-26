@@ -227,7 +227,7 @@ async function remindGeneralCleaning(client) {
     ].join('\n'),
     footer: { text: "Bộ phận Nhân sự - Văn phòng HN1" }
   }];
-  await channel.send({ t: '@HANOI1 🧹 Chào buổi sáng văn phòng HN1 ạ, em xin vài giây nhắc nhở vệ sinh chung ạ!', embed }, [{ role_id: "1969473670690639872", s: 0, e: 7 }] );
+  await channel.send({ t: '@HANOI1 🧹 Chào buổi sáng văn phòng HN1 ạ, em xin vài giây nhắc nhở vệ sinh chung ạ!', embed }, [{ role_id: "1832751219488067584", s: 0, e: 7 }] );
 }
 
 
@@ -242,7 +242,7 @@ async function remindThrowGarbage(client) {
     },
     footer: { text: "Bộ phận Nhân sự - Văn phòng HN1" }
   }];
-  await channel.send({ t: '@HANOI1 LOA LOA LOA, CẢ NHÀ ƠI!!! ĐÃ ĐẾN GIỜ ĐỔ RÁC, KHỞI ĐỘNG MÁY RỬA BÁT!', embed }, [{ role_id: "1969473670690639872", s: 0, e: 7 }] );
+  await channel.send({ t: '@HANOI1 LOA LOA LOA, CẢ NHÀ ƠI!!! ĐÃ ĐẾN GIỜ ĐỔ RÁC, KHỞI ĐỘNG MÁY RỬA BÁT!', embed }, [{ role_id: "1832751219488067584", s: 0, e: 7 }] );
 }
 
 module.exports = { startReminderCron, remindTodayDuty, remindTomorrowDuty, remindGeneralCleaning, remindThrowGarbage };
