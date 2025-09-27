@@ -7,6 +7,25 @@ const cron = require('node-cron');
 // Hằng số chung cho clan/channel
 const CLAN_ID = '1779484504377790464';
 const CHANNEL_ID = '1829449968461549568';
+
+// Hàm kiểm tra có nên gửi thông báo nhắc nhở trực nhật/đổ rác không
+function shouldNotifyDuty(offset = 0) {
+  const dateStr = getVNDateString(offset);
+  const jsonPath = path.join(__dirname, '../data/dutylist.json');
+  let rows = [];
+  try {
+    const fileContent = fs.readFileSync(jsonPath, 'utf8');
+    rows = JSON.parse(fileContent);
+  } catch (err) {
+    console.error('Lỗi đọc file dutylist.json:', err);
+    return false;
+  }
+  const todayRows = rows.filter(d => d.date === dateStr);
+  // Chỉ gửi thông báo nếu có người trực nhật
+  return todayRows && todayRows.length > 0;
+}
+
+
 // Hàm lấy ngày dd/mm/yyyy theo múi giờ VN
 function getVNDateString(offset = 0) {
   const now = new Date();
@@ -211,6 +230,10 @@ async function remindTomorrowDuty(client) {
 
 // Handler nhắc vệ sinh chung
 async function remindGeneralCleaning(client) {
+  if (!shouldNotifyDuty(0)) {
+    console.log('Hôm nay không có ai trực nhật, bỏ qua nhắc nhở vệ sinh chung');
+    return;
+  }
   const channel = await client.channels.fetch(CHANNEL_ID);
   const embed = [{
     color: "#e67e22",
@@ -232,6 +255,10 @@ async function remindGeneralCleaning(client) {
 
 
 async function remindThrowGarbage(client) {
+  if (!shouldNotifyDuty(0)) {
+    console.log('Hôm nay không có ai trực nhật, bỏ qua nhắc nhở đổ rác');
+    return;
+  }
   const channel = await client.channels.fetch(CHANNEL_ID);
   const embed = [{
     color: "#c3053bff",
