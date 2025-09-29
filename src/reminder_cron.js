@@ -55,8 +55,8 @@ function startReminderCron(client) {
   cron.schedule('30 07 * * *', async () => {
     console.log('🔔 [7:30 SÁNG] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
     try {
-      await remindGeneralCleaning(client);
-      await sleep(2000);
+      // await remindGeneralCleaning(client);
+      // await sleep(2000);
       await remindTodayDuty(client);
     } catch (err) {
       console.error('Lỗi cronjob nhắc trực nhật:', err);
@@ -66,8 +66,8 @@ function startReminderCron(client) {
   });
 
   //Cron: nhắc nhở trực nhật lần 2 - 4:30 chiều giờ VN
-  cron.schedule('30 16 * * *', async () => {
-    console.log('🔔 [4:30 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
+  cron.schedule('00 17 * * *', async () => {
+    console.log('🔔 [5:00 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
     try {
       await remindTodayDuty(client);
     } catch (err) {
@@ -77,24 +77,25 @@ function startReminderCron(client) {
     timezone: "Asia/Ho_Chi_Minh"
   });
 
-  // Cron: nhắc nhở ngày mai - 5:00 chiều giờ VN
-  cron.schedule('00 17 * * *', async () => {
-    console.log('🔔 [5:00 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
-    try {
-      await remindTomorrowDuty(client);
-    } catch (err) {
-      console.error('Lỗi cronjob nhắc trực nhật ngày mai:', err);
-    }
-  }, {
-    timezone: "Asia/Ho_Chi_Minh"
-  });
-
-  cron.schedule('01 17 * * *', async () => {
-    console.log('🔔 [5:01 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
+  
+  cron.schedule('30 17 * * *', async () => {
+    console.log('🔔 [5:30 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
     try {
       await remindThrowGarbage(client);
     } catch (err) {
       console.error('Lỗi cronjob nhắc đổ rác:', err);
+    }
+  }, {
+    timezone: "Asia/Ho_Chi_Minh"
+  });
+  
+  // Cron: nhắc nhở trực nhật ngày mai - 5:45 chiều giờ VN
+  cron.schedule('45 17 * * *', async () => {
+    console.log('🔔 [5:45 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
+    try {
+      await remindTomorrowDuty(client);
+    } catch (err) {
+      console.error('Lỗi cronjob nhắc trực nhật ngày mai:', err);
     }
   }, {
     timezone: "Asia/Ho_Chi_Minh"
@@ -269,7 +270,7 @@ async function remindThrowGarbage(client) {
     },
     footer: { text: "Bộ phận Nhân sự - Văn phòng HN1" }
   }];
-  await channel.send({ t: '@HANOI1 LOA LOA LOA, CẢ NHÀ ƠI!!! ĐÃ ĐẾN GIỜ ĐỔ RÁC, KHỞI ĐỘNG MÁY RỬA BÁT!', embed }, [{ role_id: "1832751219488067584", s: 0, e: 7 }] );
+  await channel.send({ t: 'LOA LOA LOA, CẢ NHÀ ƠI!!! ĐÃ ĐẾN GIỜ ĐỔ RÁC, KHỞI ĐỘNG MÁY RỬA BÁT!', embed });
 }
 
 module.exports = { startReminderCron, remindTodayDuty, remindTomorrowDuty, remindGeneralCleaning, remindThrowGarbage };
