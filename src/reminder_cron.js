@@ -90,7 +90,7 @@ function startReminderCron(client) {
   });
   
   // Cron: nhắc nhở trực nhật ngày mai - 5:45 chiều giờ VN
-  cron.schedule('45 17 * * *', async () => {
+  cron.schedule('00 18 * * *', async () => {
     console.log('🔔 [5:45 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
     try {
       await remindTomorrowDuty(client);
