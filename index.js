@@ -1,5 +1,4 @@
 
-
 require('dotenv').config();
 const express = require('express');
 
@@ -23,11 +22,11 @@ const registerHealthApi = require('./api/health');
 
 
 const PORT = process.env.PORT || 8000;
-const APP_TOKEN = process.env.APPLICATION_TOKEN;
-
+const BOT_TOKEN = process.env.APPLICATION_TOKEN;
+const BOT_ID = process.env.APPLICATION_ID;
 
 (async () => {
-  const client = new MezonClient(APP_TOKEN);
+  const client = new MezonClient({ botId: BOT_ID, token: BOT_TOKEN });
   await client.login();
 
 
