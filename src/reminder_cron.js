@@ -52,8 +52,8 @@ function startReminderCron(client) {
   console.log('🕐 Khởi tạo cron jobs với timezone:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
   
   // Cron: Nhắc nhở trực nhật hôm nay:cả DM lẫn user - 7:30 sáng giờ VN
-  cron.schedule('30 07 * * *', async () => {
-    console.log('🔔 [7:30 SÁNG] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
+  cron.schedule('00 07 * * *', async () => {
+    console.log('🔔 [7:00 SÁNG] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
     try {
       // await remindGeneralCleaning(client);
       // await sleep(2000);
@@ -90,7 +90,7 @@ function startReminderCron(client) {
   });
   
   // Cron: nhắc nhở trực nhật ngày mai - 5:45 chiều giờ VN
-  cron.schedule('55 21 * * *', async () => {
+  cron.schedule('45 17 * * *', async () => {
     console.log('🔔 [5:45 CHIỀU] Cron chạy lúc:', new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'}));
     try {
       await remindTomorrowDuty(client);
